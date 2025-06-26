@@ -1,0 +1,29 @@
+router.post('/', function (req, res, next) {
+  const username = req.body.username;
+  const password = req.body.password;
+
+  knex("users")
+    .where({
+      name: username,
+      password: password,
+    })
+    .select("*")
+    .then((results) => {
+      if (results.length === 0) {
+        res.render("signin", {
+          title: "Sign in",
+          errorMessage: ["ユーザが見つかりません"],
+        });
+      } else {
+        res.redirect('/');
+      }
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.render("signin", {
+        title: "Sign in",
+        errorMessage: [err.sqlMessage],
+        isAuth: false,
+      });
+    });
+});
