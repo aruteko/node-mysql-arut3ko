@@ -1,17 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">TodoApp</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-          aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signin">Sign in</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<!-- filepath: /workspaces/node-mysql-arut3ko/views/headers.ejs -->
+<header>
+  <% if (loginUser) { %>
+    <a href="/">Home</a>
+    <a href="/users">Users</a>
+    <div class="dropdown" style="margin-left:auto;">
+      <a href="#">Account ▼</a>
+      <div class="dropdown-content">
+        <a href="/users/<%= loginUser.id %>">Profile</a>
+        <a href="/accounts/edit">Settings</a>
+        <a href="/signin/logout">Logout</a>
+      </div>
+    </div>
+  <% } else { %>
+    <a href="/">MicroPost</a>
+    <a href="/signin" style="margin-left:auto;">Sign in</a>
+  <% } %>
+</header>

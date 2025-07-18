@@ -1,0 +1,59 @@
+<!-- filepath: /workspaces/node-mysql-arut3ko/views/edit_account.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update your profile</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; }
+    header { background: #333; color: #fff; padding: 10px 20px; display: flex; align-items: center; }
+    header a { color: #fff; margin-right: 20px; text-decoration: none; }
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-content {
+      display: none; position: absolute; background: #fff; min-width: 120px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1; right: 0;
+    }
+    .dropdown-content a { color: #333; padding: 10px 16px; text-decoration: none; display: block; }
+    .dropdown-content a:hover { background: #eee; }
+    .dropdown:hover .dropdown-content { display: block; }
+    .container { margin: 20px; }
+    form { max-width: 400px; }
+    form div { margin-bottom: 10px; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">Home</a>
+    <a href="/users">Users</a>
+    <div class="dropdown" style="margin-left:auto;">
+      <a href="#">Account ▼</a>
+      <div class="dropdown-content">
+        <a href="/users/<%= user.id %>">Profile</a>
+        <a href="/accounts/edit">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <h2>Update your profile</h2>
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+    <form action="/accounts/edit" method="post">
+      <div>
+        <label>ユーザ名: <input type="text" name="name" value="<%= user.name %>" required></label>
+      </div>
+      <div>
+        <label>メールアドレス: <input type="email" name="email" value="<%= user.email %>" required></label>
+      </div>
+      <div>
+        <label>パスワード: <input type="password" name="password"></label>
+      </div>
+      <div>
+        <label>パスワード再入力: <input type="password" name="password2"></label>
+      </div>
+      <button type="submit">Save changes</button>
+    </form>
+  </div>
+</body>
+</html>

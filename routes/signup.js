@@ -1,63 +1,46 @@
 const express = require('express');
 const router = express.Router();
-const knex = require("../db/knex");
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcrypt');
+const db = require("../db/knex");
 
-router.get('/', function (req, res, next) {
-  const isAuth = req.isAuthenticated();
-  res.render('signup', {
-    title: 'Sign up',
-    isAuth: isAuth,
-  });
+// サインアップページ表示
+router.get('/', (req, res) => {
+  res.render('signup', { 
+    title: 'Sign up', 
+    error: null,
+    loginUser: req.user,
+   });
 });
 
-router.post('/', function (req, res, next) {
-  const isAuth = req.isAuthenticated();
-  const username = req.body.username;
-  const password = req.body.password;
-  const repassword = req.body.repassword;
-
-  knex("users")
-    .where({name: username})
-    .select("*")
-    .then(async function (result) {
-      if (result.length !== 0) {
-        res.render("signup", {
-          title: "Sign up",
-          errorMessage: ["このユーザ名は既に使われています"],
-          isAuth: isAuth,
-        })
-      } else if (password === repassword) {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        knex("users")
-          .insert({name: username, password: hashedPassword})
-          .then(function () {
-            res.redirect("/");
-          })
-          .catch(function (err) {
-            console.error(err);
-            res.render("signup", {
-              title: "Sign up",
-              errorMessage: [err.sqlMessage],
-              isAuth: isAuth,
-            });
-          });
-      } else {
-        res.render("signup", {
-          title: "Sign up",
-          errorMessage: ["パスワードが一致しません"],
-          isAuth: isAuth,
-        });
-      }
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.render("signup", {
-        title: "Sign up",
-        errorMessage: [err.sqlMessage],
-        isAuth: isAuth,
-      });
+// サインアップ処理
+router.post('/', async (req, res) => {
+  const { name, email, password, password2 } = req.body;
+  if (!name || !email || !password || password !== password2) {
+    return res.render('signup', { 
+      title: 'Sign up',
+      error: '入力内容を確認してください。' ,
+      loginUser: req.user,
     });
+  }
+  try {
+  const hash = await bcrypt.hash(password, 10);
+  const now = new Date();
+  await db('users').insert({
+    name,
+    email,
+    password: hash,
+    isAdmin: 0,
+    created_at: now,
+    updated_at: now
+  });
+  res.redirect('/signin');
+} catch (err) {
+  res.render('signup', { 
+    title: 'Sign up', 
+    error: '登録に失敗しました。' ,
+    loginUser: req.user,
+  });
+}
 });
 
 module.exports = router;

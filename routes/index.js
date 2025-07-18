@@ -1,58 +1,62 @@
 const express = require('express');
 const router = express.Router();
-const knex = require('../db/knex');
+const db = require('../db/knex');
 
-router.get('/', function (req, res, next) {
-  const isAuth = req.isAuthenticated();
-  if (isAuth) {
-    const userId = req.user.id;
-    knex("tasks")
-      .select("*")
-      .where({user_id: userId})
-      .then(function (results) {
-        res.render('index', {
-          title: 'ToDo App',
-          todos: results,
-          isAuth: isAuth,
-        });
-      })
-      .catch(function (err) {
-        console.error(err);
-        res.render('index', {
-          title: 'ToDo App',
-          isAuth: isAuth,
-          errorMessage: [err.sqlMessage],
-        });
-      });
-  } else {
-    res.render('index', {
-      title: 'ToDo App',
-      isAuth: isAuth,
-    });
+router.get('/', async function(req, res, next) {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.redirect('/signin');
   }
+  const user = req.user;
+  // プロフィール画像、投稿数、フォロー数、フォロワー数取得例
+  const [postCount] = await db('microposts').where({ user_id: user.id }).count('id as cnt');
+  const [followingCount] = await db('relationships').where({ follower_id: user.id }).count('id as cnt');
+  const [followerCount] = await db('relationships').where({ followed_id: user.id }).count('id as cnt');
+  // 投稿一覧取得例
+  const microposts = await db('microposts')
+    .join('users', 'microposts.user_id', 'users.id')
+    .select(
+      'microposts.id',
+      'microposts.content',
+      'microposts.created_at',
+      'microposts.user_id',
+      'users.name as userName',
+      'users.profileImage'
+    )
+    .orderBy('microposts.created_at', 'desc');
+  res.render('index', {
+    user: {
+      ...user,
+      profileImage: user.profileImage,
+      postCount: postCount.cnt,
+      followingCount: followingCount.cnt,
+      followerCount: followerCount.cnt,
+    },
+    microposts,
+    loginUser: req.user,
+  });
 });
 
-router.post('/', function (req, res, next) {
-  const isAuth = req.isAuthenticated();
-  const userId = req.user.id;
-  const todo = req.body.add;
-  knex("tasks")
-    .insert({user_id: userId, content: todo})
-    .then(function () {
-      res.redirect('/')
-    })
-    .catch(function (err) {
-      console.error(err);
-      res.render('index', {
-        title: 'ToDo App',
-        isAuth: isAuth,
-        errorMessage: [err.sqlMessage],
-      });
-    });
+router.get('/', (req, res) => {
+  res.render('signin', { title: 'Sign in', error: req.flash('error') });
 });
 
-router.use('/signup', require('./signup'));
-router.use('/signin', require('./signin'));
-router.use('/logout', require('./logout'));
+router.post('/microposts', async (req, res) => {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.redirect('/signin');
+  }
+  const user = req.user;
+  const content = req.body.content;
+  if (!content || content.trim() === '') {
+    // 空投稿は許可しない
+    return res.redirect('/');
+  }
+  await db('microposts').insert({
+    content: content,
+    user_id: user.id,
+    created_at: new Date(),
+    updated_at: new Date()
+  });
+  res.redirect('/');
+});
 
 module.exports = router;

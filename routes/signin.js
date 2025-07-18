@@ -1,20 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const passport = require("passport");
+const passport = require('passport');
 
-router.get('/', function (req, res, next) {
-  const isAuth = req.isAuthenticated();
-  res.render("signin", {
-    title: "Sign in",
-    isAuth: isAuth,
+// サインインページ表示
+router.get('/', (req, res) => {
+  res.render('signin', { 
+    title: 'Sign in', 
+    error: req.flash('error'),
+    loginUser: req.user,
   });
 });
 
-router.post('/', passport.authenticate('local', {
+// サインイン処理
+router.post('/', (req, res, next) => {
+  passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/signin',
-    failureFlash: true,
-  }
-));
+    failureFlash: true
+  })(req, res, next);
+});
+
+router.get('/logout', (req, res) => {
+  req.logout(); // コールバック不要
+  req.session.destroy(() => {
+    res.redirect('/signin');
+  });
+});
 
 module.exports = router;
