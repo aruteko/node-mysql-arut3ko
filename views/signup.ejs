@@ -9,18 +9,14 @@
 <%- include('./headers'); %>
 <%- include('./error_message'); %>
 <div class="container">
-  <form action="/signup" method="post">
-    <label>ユーザ名</label>
-    <input required type="text" name="username"/>
-    <br>
-    <label>パスワード</label>
-    <input required type="password" name="password"/>
-    <br>
-    <label>パスワード再入力</label>
-    <input required type="text" name="repassword"/>
-    <br>
-    <input class="btn btn-primary" type="submit" value="Sign Up"/>
-  </form>
+        <form method="POST" action="/signup">
+                <input type="text" name="username" placeholder="ユーザー名" required>
+                <input type="password" name="password" placeholder="パスワード" required>
+                <input type="password" name="repassword" placeholder="パスワード（確認）" required>
+                <input type="text" name="profile_image" placeholder="プロフィール画像URL">
+                <textarea name="bio" placeholder="紹介文"></textarea>
+                <button type="submit">登録</button>
+        </form>
 </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

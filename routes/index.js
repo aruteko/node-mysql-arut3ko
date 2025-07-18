@@ -4,47 +4,47 @@ const knex = require('../db/knex');
 
 router.get('/', function (req, res, next) {
   const isAuth = req.isAuthenticated();
-  if (isAuth) {
-    const userId = req.user.id;
-    knex("tasks")
-      .select("*")
-      .where({user_id: userId})
-      .then(function (results) {
-        res.render('index', {
-          title: 'ToDo App',
-          todos: results,
-          isAuth: isAuth,
-        });
-      })
-      .catch(function (err) {
-        console.error(err);
-        res.render('index', {
-          title: 'ToDo App',
-          isAuth: isAuth,
-          errorMessage: [err.sqlMessage],
-        });
+  knex("posts")
+    .select("posts.*", "users.name as username")
+    .leftJoin("users", "posts.user_id", "users.id")
+    .orderBy("posts.created_at", "desc")
+    .then(function (results) {
+      res.render('index', {
+        title: 'Mini Twitter',
+        posts: results,
+        isAuth: isAuth,
+        user: req.user,
       });
-  } else {
-    res.render('index', {
-      title: 'ToDo App',
-      isAuth: isAuth,
-    });
-  }
-});
-
-router.post('/', function (req, res, next) {
-  const isAuth = req.isAuthenticated();
-  const userId = req.user.id;
-  const todo = req.body.add;
-  knex("tasks")
-    .insert({user_id: userId, content: todo})
-    .then(function () {
-      res.redirect('/')
     })
     .catch(function (err) {
       console.error(err);
       res.render('index', {
-        title: 'ToDo App',
+        title: 'Mini Twitter',
+        posts: [],
+        isAuth: isAuth,
+        errorMessage: [err.sqlMessage],
+      });
+    });
+});
+
+router.post('/', function (req, res, next) {
+  const isAuth = req.isAuthenticated();
+  if (!isAuth || !req.user) {
+    res.redirect('/signin');
+    return;
+  }
+  const userId = req.user.id;
+  const content = req.body.content;
+  knex("posts")
+    .insert({user_id: userId, content: content, created_at: new Date()})
+    .then(function () {
+      res.redirect('/');
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.render('index', {
+        title: 'Mini Twitter',
+        posts: [],
         isAuth: isAuth,
         errorMessage: [err.sqlMessage],
       });
@@ -54,5 +54,6 @@ router.post('/', function (req, res, next) {
 router.use('/signup', require('./signup'));
 router.use('/signin', require('./signin'));
 router.use('/logout', require('./logout'));
+//router.use('/', require('./profile'));
 
 module.exports = router;

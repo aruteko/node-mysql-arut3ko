@@ -16,6 +16,8 @@ router.post('/', function (req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
   const repassword = req.body.repassword;
+  const profile_image = req.body.profile_image || null;
+  const bio = req.body.bio || null;
 
   knex("users")
     .where({name: username})
@@ -30,7 +32,12 @@ router.post('/', function (req, res, next) {
       } else if (password === repassword) {
         const hashedPassword = await bcrypt.hash(password, 10);
         knex("users")
-          .insert({name: username, password: hashedPassword})
+          .insert({
+            name: username,
+            password: hashedPassword,
+            profile_image: profile_image,
+            bio: bio
+          })
           .then(function () {
             res.redirect("/");
           })

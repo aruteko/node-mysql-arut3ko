@@ -11,18 +11,28 @@
  <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <form action="/" method="post">
-        <label>タスクの追加</label>
-        <input required type="text" name="add" placeholder="何をする?"/>
-        <input class="btn btn-primary" type="submit" value="Add"/>
-      </form>
-    </div>
-    <div class="col-md-6">
-      <ul>
-        <% for(let todo of todos){ %>
-          <li><span><%= todo.content %></span></li>
+      <h1><%= title %></h1>
+        <% if (isAuth) { %>
+          <form method="POST" action="/">
+            <textarea name="content" placeholder="いまどうしてる？"></textarea>
+            <button type="submit">投稿</button>
+          </form>
+        <% } else { %>
+          <a href="/signin">ログイン</a> | <a href="/signup">新規登録</a>
         <% } %>
-      </ul>
+
+        <ul>
+            <% for(let post of posts){ %>
+              <li>
+                <a href="/<%= post.username %>">
+                  <img src="<%= post.profile_image || '/images/default.png' %>" alt="icon" width="32" height="32">
+                </a>
+                <strong><%= post.username %></strong>:
+                <span><%= post.content %></span>
+                <small><%= post.created_at %></small>
+              </li>
+            <% } %>
+          </ul>
     </div>
   </div>
 </div>
