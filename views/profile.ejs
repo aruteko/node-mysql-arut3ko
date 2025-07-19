@@ -1,7 +1,8 @@
+<!-- filepath: /workspaces/node-mysql-arut3ko/views/profile.ejs -->
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MicroPost</title>
+  <title><%= user.name %> - Profile</title>
   <link rel="stylesheet" href="/stylesheets/common.css">
 </head>
 <body>
@@ -10,10 +11,25 @@
     <!-- 左カラム -->
     <div class="left">
       <a href="/users/<%= user.id %>">
-        <img src="<%= user.profileImage || '/images/default-profile.png' %>" alt="profile" class="profile-img">
+        <% if (user.profileImage) { %>
+          <img src="<%= user.profileImage %>" alt="Profile Image" class="profile-img">
+        <% } else { %>
+          <img src="/images/default-profile.png" alt="Default Profile" class="profile-img">
+        <% } %>
       </a>
       <div><strong><%= user.name %></strong></div>
       <!--<div><a href="/users/<%= user.id %>">view my profile</a></div>-->
+      <% if (loginUser && loginUser.id !== user.id) { %>
+        <% if (isFollowing) { %>
+          <form action="/users/<%= user.id %>/unfollow" method="post" style="margin-bottom:20px;">
+            <button type="submit">UnFollow</button>
+          </form>
+        <% } else { %>
+          <form action="/users/<%= user.id %>/follow" method="post" style="margin-bottom:20px;">
+            <button type="submit">Follow</button>
+          </form>
+        <% } %>
+      <% } %>
       <div class="stats">
         <div>投稿数: <%= user.postCount %></div>
         <div>
@@ -21,10 +37,12 @@
           <a href="/users/<%= user.id %>/followers">フォロワー: <%= user.followerCount %></a>
         </div>
       </div>
-      <form action="/microposts" method="post">
-        <textarea name="content" placeholder="いまどうしてる？" required></textarea>
-        <button type="submit">Post</button>
-      </form>
+      <% if (user.bio) { %>
+      <div class="user-bio">
+        <h4>自己紹介</h4>
+        <p><%= user.bio %></p>
+      </div>
+    <% } %>
     </div>
     <!-- 右カラム -->
     <div class="right">
@@ -32,16 +50,16 @@
       <% if (microposts && microposts.length > 0) { %>
         <% microposts.forEach(function(post) { %>
           <div class="micropost">
-            <a href="/users/<%= post.user_id %>">
-              <img src="<%= post.profileImage || '/images/default-profile.png' %>" alt="profile" class="profile-img">
+            <a href="/users/<%= user.id %>">
+              <img src="<%= user.profileImage || '/images/default-profile.png' %>" alt="profile" class="profile-img">
             </a>
             <div class="micropost-content">
               <div class="micropost-header">
-                <a href="/users/<%= post.user_id %>"><%= post.userName %></a>
-                <span class="micropost-date"><%= toJapanTimeString(post.created_at).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }) %></span>
+                <a href="/users/<%= user.id %>"><%= user.name %></a>
+                <span class="micropost-date"><%= toJapanTimeString(post.created_at) %></span>
               </div>
               <div><%= post.content %></div>
-              <% if (user.id === post.user_id) { %>
+              <% if (loginUser && loginUser.id === user.id) { %>
                 <form action="/microposts/<%= post.id %>?_method=DELETE" method="post" style="display:inline;">
                   <button type="submit" class="delete-btn">delete</button>
                 </form>
@@ -67,3 +85,4 @@
     </div>
   </div>
 </body>
+</html>

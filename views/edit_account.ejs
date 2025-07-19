@@ -1,0 +1,51 @@
+<!-- filepath: /workspaces/node-mysql-arut3ko/views/edit_account.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Update your profile</title>
+  <link rel="stylesheet" href="/stylesheets/common.css">
+</head>
+<body>
+  <header>
+    <a href="/">Home</a>
+    <a href="/users">Users</a>
+    <div class="dropdown" style="margin-left:auto;">
+      <a href="#">Account ▼</a>
+      <div class="dropdown-content">
+        <a href="/users/<%= user.id %>">Profile</a>
+        <a href="/accounts/edit">Settings</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <h2>Update your profile</h2>
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+    <form action="/accounts/edit" method="post">
+      <div>
+        <label for="profileImage">Profile Image URL</label>
+        <input type="url" name="profileImage" value="<%= user.profileImage %>" placeholder="https://example.com/image.jpg">
+      </div>
+      <div>
+        <label for="bio">自己紹介</label>
+        <textarea name="bio" id="bio" rows="3" placeholder="自己紹介を入力してください"><%= user.bio %></textarea>
+      </div>
+      <div>
+        <label>ユーザ名: <input type="text" name="name" value="<%= user.name %>" required></label>
+      </div>
+      <div>
+        <label>メールアドレス: <input type="email" name="email" value="<%= user.email %>" required></label>
+      </div>
+      <div>
+        <label>パスワード: <input type="password" name="password"></label>
+      </div>
+      <div>
+        <label>パスワード再入力: <input type="password" name="password2"></label>
+      </div>
+      <button type="submit">Save changes</button>
+    </form>
+  </div>
+</body>
+</html>

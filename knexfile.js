@@ -1,13 +1,12 @@
-// Update with your config settings.
-
 module.exports = {
 
   development: {
     client: "mysql",
     connection: {
-      database: "todo_app",
+      database: "Micropost", // ← ここをMicropostに変更
       user: "root",
       password: "password",
+      timezone: '+09:00'
     },
     pool: {
       min: 2,
@@ -18,9 +17,10 @@ module.exports = {
   staging: {
     client: "mysql",
     connection: {
-      database: "todo_app",
+      database: "Micropost", // ← ここもMicropostに変更
       user: "root",
-      password: "password", 
+      password: "password",
+      timezone: '+09:00'
     },
     pool: {
       min: 2,
@@ -31,9 +31,10 @@ module.exports = {
   production: {
     client: "mysql",
     connection: {
-      database: "todo_app",
+      database: "Micropost", // ← ここもMicropostに変更
       user: "root",
-      password: "password", 
+      password: "password",
+      timezone: '+09:00'
     },
     pool: {
       min: 2,
