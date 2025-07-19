@@ -29,9 +29,10 @@
         <% if (followingUsers.length === 0) { %>
           <div>フォローしているユーザはいません。</div>
         <% } %>
-        <% followingUsers.forEach(function(fu) { %>
+        <% followingUsers.forEach(function(user) { %>
           <div class="user-list-item">
-            <a href="/users/<%= fu.id %>"><%= fu.name %></a>
+            <img src="<%= user.profileImage || '/images/default-profile.png' %>" alt="profile" class="profile-img" style="width:40px; height:40px; margin-right:10px;">
+            <a href="/users/<%= user.id %>"><%= user.name %></a>
           </div>
         <% }); %>
       </div>

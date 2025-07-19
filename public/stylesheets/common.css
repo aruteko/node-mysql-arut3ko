@@ -4,14 +4,6 @@ body {
   margin: 0; 
 }
 
-header { 
-  background: #333; 
-  color: #fff; 
-  padding: 10px 20px; 
-  display: flex; 
-  align-items: center; 
-}
-
 header a { 
   color: #fff; 
   margin-right: 20px; 
@@ -161,4 +153,28 @@ form button {
   background: none; 
   border: none; 
   cursor: pointer; 
+}
+
+header {
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+}
+
+header > div {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+header form[action="/search"] {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+header .dropdown {
+  margin-left: 100px;
 }

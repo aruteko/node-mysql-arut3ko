@@ -1,8 +1,15 @@
 <!-- filepath: /workspaces/node-mysql-arut3ko/views/headers.ejs -->
 <header>
   <% if (loginUser) { %>
-    <a href="/">Home</a>
+    <a href="/">
+      <img src="/images/y.png" alt="Home" style="height:32px; vertical-align:middle;">
+    </a>
     <a href="/users">Users</a>
+    <div style="margin-left:auto; display:flex; align-items:center;">
+    <form action="/search" method="get" style="display:inline;">
+      <input type="text" name="q" placeholder="投稿を検索" value="<%= typeof query !== 'undefined' ? query : '' %>">
+      <button type="submit">検索</button>
+    </form>
     <div class="dropdown" style="margin-left:auto;">
       <a href="#">Account ▼</a>
       <div class="dropdown-content">
@@ -11,6 +18,8 @@
         <a href="/signin/logout">Logout</a>
       </div>
     </div>
+  </div>
+    
   <% } else { %>
     <a href="/">MicroPost</a>
     <a href="/signin" style="margin-left:auto;">Sign in</a>

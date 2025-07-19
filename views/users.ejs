@@ -11,6 +11,7 @@
     <h2>All Users</h2>
     <% users.forEach(function(user) { %>
       <div class="user-list-item with-button">
+        <img src="<%= user.profileImage || '/images/default-profile.png' %>" alt="profile" class="profile-img" style="width:40px; height:40px; margin-right:10px;">
         <a href="/users/<%= user.id %>"><%= user.name %></a>
         <% if (loginUser && loginUser.isAdmin) { %>
           <form action="/users/<%= user.id %>/delete" method="post" style="display:inline;">

@@ -47,6 +47,18 @@
                 </form>
               <% } %>
             </div>
+            <form action="/likes/<%= post.id %>" method="post" style="display:inline;">
+              <button type="submit" style="background:none;border:none;padding:0;">
+                <% if (post.liked) { %>
+                  <img src="/images/liked.png" alt="liked" width="24" height="24">
+                <% } else { %>
+                  <img src="/images/not_liked.png" alt="not liked" width="24" height="24">
+                <% } %>
+              </button>
+            </form>
+            <div class="like-count">
+              <%= post.likeCount || 0 %>
+            </div>
           </div>
         <% }); %>
       <% } else { %>

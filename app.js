@@ -48,6 +48,7 @@ app.use('/signin', require('./routes/signin'));
 app.use('/users', require('./routes/users'));
 app.use('/accounts', require('./routes/accounts'));
 app.use('/microposts', require('./routes/index'));
+app.use('/likes', require('./routes/likes'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
