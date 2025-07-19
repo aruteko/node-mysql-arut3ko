@@ -18,7 +18,18 @@
         <% } %>
       </a>
       <div><strong><%= user.name %></strong></div>
-      <div><a href="/users/<%= user.id %>">view my profile</a></div>
+      <!--<div><a href="/users/<%= user.id %>">view my profile</a></div>-->
+      <% if (loginUser && loginUser.id !== user.id) { %>
+        <% if (isFollowing) { %>
+          <form action="/users/<%= user.id %>/unfollow" method="post" style="margin-bottom:20px;">
+            <button type="submit">UnFollow</button>
+          </form>
+        <% } else { %>
+          <form action="/users/<%= user.id %>/follow" method="post" style="margin-bottom:20px;">
+            <button type="submit">Follow</button>
+          </form>
+        <% } %>
+      <% } %>
       <div class="stats">
         <div>投稿数: <%= user.postCount %></div>
         <div>
@@ -36,17 +47,6 @@
     <!-- 右カラム -->
     <div class="right">
       <h2>Micropost Feed</h2>
-      <% if (loginUser && loginUser.id !== user.id) { %>
-        <% if (isFollowing) { %>
-          <form action="/users/<%= user.id %>/unfollow" method="post" style="margin-bottom:20px;">
-            <button type="submit">UnFollow</button>
-          </form>
-        <% } else { %>
-          <form action="/users/<%= user.id %>/follow" method="post" style="margin-bottom:20px;">
-            <button type="submit">Follow</button>
-          </form>
-        <% } %>
-      <% } %>
       <% if (microposts && microposts.length > 0) { %>
         <% microposts.forEach(function(post) { %>
           <div class="micropost">
