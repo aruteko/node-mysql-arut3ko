@@ -3,35 +3,11 @@
 <html>
 <head>
   <title><%= user.name %> - Profile</title>
-  <style>
-    body { font-family: sans-serif; margin: 0; }
-    header { background: #333; color: #fff; padding: 10px 20px; display: flex; align-items: center; }
-    header a { color: #fff; margin-right: 20px; text-decoration: none; }
-    .dropdown { position: relative; display: inline-block; }
-    .dropdown-content {
-      display: none; position: absolute; background: #fff; min-width: 120px; box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      z-index: 1; right: 0;
-    }
-    .dropdown-content a { color: #333; padding: 10px 16px; text-decoration: none; display: block; }
-    .dropdown-content a:hover { background: #eee; }
-    .dropdown:hover .dropdown-content { display: block; }
-    .container { display: flex; margin: 20px; }
-    .left { width: 300px; margin-right: 40px; }
-    .right { flex: 1; }
-    .profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; display: block; margin-bottom: 10px; }
-    .stats { margin: 10px 0; }
-    .stats a { margin-right: 10px; }
-    .micropost { border-bottom: 1px solid #ddd; padding: 16px 0; display: flex; align-items: flex-start; }
-    .micropost .profile-img { width: 50px; height: 50px; margin-right: 16px; }
-    .micropost-content { flex: 1; }
-    .micropost-header { font-weight: bold; }
-    .micropost-date { color: #888; font-size: 0.9em; }
-    .delete-btn { color: #c00; background: none; border: none; cursor: pointer; }
-  </style>
+  <link rel="stylesheet" href="/stylesheets/common.css">
 </head>
 <body>
   <%- include('headers', { loginUser: loginUser }) %>
-  <div class="container">
+  <div class="container two-column">
     <!-- 左カラム -->
     <div class="left">
       <a href="/users/<%= user.id %>">
