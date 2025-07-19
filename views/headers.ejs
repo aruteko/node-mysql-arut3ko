@@ -2,7 +2,7 @@
 <header>
   <% if (loginUser) { %>
     <a href="/">
-      <img src="/images/y.png" alt="Home" style="height:32px; vertical-align:middle;">
+      <img src="/images/y.png" alt="Home" style="height:60px; vertical-align:middle;">
     </a>
     <a href="/users">Users</a>
     <div style="margin-left:auto; display:flex; align-items:center;">
@@ -10,7 +10,7 @@
       <input type="text" name="q" placeholder="投稿を検索" value="<%= typeof query !== 'undefined' ? query : '' %>">
       <button type="submit">検索</button>
     </form>
-    <div class="dropdown" style="margin-left:auto;">
+    <div class="dropdown">
       <a href="#">Account ▼</a>
       <div class="dropdown-content">
         <a href="/users/<%= loginUser.id %>">Profile</a>
@@ -21,7 +21,9 @@
   </div>
     
   <% } else { %>
-    <a href="/">MicroPost</a>
+    <a href="/">
+      <img src="/images/y.png" alt="Home" style="height:32px; vertical-align:middle;">
+    </a>
     <a href="/signin" style="margin-left:auto;">Sign in</a>
   <% } %>
 </header>

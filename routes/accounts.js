@@ -6,8 +6,12 @@ const db = require('../db/knex');
 // ユーザ情報変更ページ表示
 router.get('/edit', async (req, res) => {
   if (!req.user) return res.redirect('/signin');
-  const user = await db('users').where({ id: req.user.id }).first();
-  res.render('edit_account', { user, error: null });
+  //const user = await db('users').where({ id: req.user.id }).first();
+  res.render('edit_account', {
+    user: req.user,
+    loginUser: req.user,
+    error: null
+  });
 });
 
 // ユーザ情報更新処理

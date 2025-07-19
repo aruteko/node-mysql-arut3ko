@@ -15,11 +15,26 @@
       <div><strong><%= user.name %></strong></div>
       <!--<div><a href="/users/<%= user.id %>">view my profile</a></div>-->
       <div class="stats">
-        <div>投稿数: <%= user.postCount %></div>
-        <div>
-          <a href="/users/<%= user.id %>/following">フォロー: <%= user.followingCount %></a>
-          <a href="/users/<%= user.id %>/followers">フォロワー: <%= user.followerCount %></a>
+        <div class="stat-item">
+          <span class="stat-label">投稿数</span>
+          <span class="stat-value"><%= user.postCount %></span>
         </div>
+        <a href="/users/<%= user.id %>/following">
+          <div class="stat-item">
+            <span class="stat-label">フォロー</span>
+            <span class="stat-value">
+              <%= user.followingCount %>
+            </span>
+          </div>
+        </a>
+        <a href="/users/<%= user.id %>/followers">
+          <div class="stat-item">
+            <span class="stat-label">フォロワー</span>
+            <span class="stat-value">
+              <%= user.followerCount %>
+            </span>
+          </div>
+        </a>
       </div>
       <form action="/microposts" method="post">
         <textarea name="content" placeholder="いまどうしてる？" required></textarea>
@@ -42,7 +57,7 @@
               </div>
               <div><%= post.content %></div>
               <% if (user.id === post.user_id) { %>
-                <form action="/microposts/<%= post.id %>?_method=DELETE" method="post" style="display:inline;">
+                <form action="/microposts/<%= post.id %>?_method=DELETE" method="post" style="display:inline;" class="delete-form">
                   <button type="submit" class="delete-btn">delete</button>
                 </form>
               <% } %>

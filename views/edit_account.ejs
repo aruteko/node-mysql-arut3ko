@@ -6,18 +6,7 @@
   <link rel="stylesheet" href="/stylesheets/common.css">
 </head>
 <body>
-  <header>
-    <a href="/">Home</a>
-    <a href="/users">Users</a>
-    <div class="dropdown" style="margin-left:auto;">
-      <a href="#">Account ▼</a>
-      <div class="dropdown-content">
-        <a href="/users/<%= user.id %>">Profile</a>
-        <a href="/accounts/edit">Settings</a>
-        <a href="/logout">Logout</a>
-      </div>
-    </div>
-  </header>
+  <%- include('headers', { loginUser: loginUser }) %>
   <div class="container">
     <h2>Update your profile</h2>
     <% if (error) { %>
