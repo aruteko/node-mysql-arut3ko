@@ -13,7 +13,7 @@ router.get('/edit', async (req, res) => {
 // ユーザ情報更新処理
 router.post('/edit', async (req, res) => {
   if (!req.user) return res.redirect('/signin');
-  const { name, email, password, password2 } = req.body;
+  const { name, email, password, password2, profileImage, bio } = req.body;
   if (!name || !email || (password && password !== password2)) {
     return res.render('edit_account', { user: req.body, error: '入力内容を確認してください。' });
   }
@@ -21,7 +21,9 @@ router.post('/edit', async (req, res) => {
     const updateData = {
       name,
       email,
-      updated_at: new Date()
+      updated_at: new Date(),
+      profileImage,
+      bio
     };
     if (password) {
       updateData.password = await bcrypt.hash(password, 10);

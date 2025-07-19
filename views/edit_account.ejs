@@ -25,6 +25,14 @@
     <% } %>
     <form action="/accounts/edit" method="post">
       <div>
+        <label for="profileImage">Profile Image URL</label>
+        <input type="url" name="profileImage" value="<%= user.profileImage %>" placeholder="https://example.com/image.jpg">
+      </div>
+      <div>
+        <label for="bio">自己紹介</label>
+        <textarea name="bio" id="bio" rows="3" placeholder="自己紹介を入力してください"><%= user.bio %></textarea>
+      </div>
+      <div>
         <label>ユーザ名: <input type="text" name="name" value="<%= user.name %>" required></label>
       </div>
       <div>

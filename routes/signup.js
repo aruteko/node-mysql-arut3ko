@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 
 // サインアップ処理
 router.post('/', async (req, res) => {
-  const { name, email, password, password2 } = req.body;
+  const { name, email, password, password2, profileImage, bio } = req.body;
   if (!name || !email || !password || password !== password2) {
     return res.render('signup', { 
       title: 'Sign up',
@@ -26,13 +26,15 @@ router.post('/', async (req, res) => {
   const hash = await bcrypt.hash(password, 10);
   const now = new Date();
   await db('users').insert({
-    name,
-    email,
-    password: hash,
-    isAdmin: 0,
-    created_at: now,
-    updated_at: now
-  });
+  name,
+  email,
+  password: hash,
+  isAdmin: 0,
+  created_at: now,
+  updated_at: now,
+  profileImage,
+  bio
+});
   res.redirect('/signin');
 } catch (err) {
   res.render('signup', { 

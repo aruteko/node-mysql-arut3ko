@@ -38,7 +38,7 @@
             <div class="micropost-content">
               <div class="micropost-header">
                 <a href="/users/<%= post.user_id %>"><%= post.userName %></a>
-                <span class="micropost-date"><%= post.created_at.toLocaleString ? post.created_at.toLocaleString() : post.created_at %></span>
+                <span class="micropost-date"><%= toJapanTimeString(post.created_at).toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' }) %></span>
               </div>
               <div><%= post.content %></div>
               <% if (user.id === post.user_id) { %>

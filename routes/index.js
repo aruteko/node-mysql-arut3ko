@@ -59,4 +59,16 @@ router.post('/microposts', async (req, res) => {
   res.redirect('/');
 });
 
+router.delete('/:id', async (req, res) => {
+  const postId = req.params.id;
+  // 投稿が自分のものか確認
+  const post = await db('microposts').where({ id: postId }).first();
+  if (!post || post.user_id !== req.user.id) {
+    return res.status(403).send('Forbidden');
+  }
+  await db('microposts').where({ id: postId }).del();
+  res.redirect('/');
+});
+
+
 module.exports = router;

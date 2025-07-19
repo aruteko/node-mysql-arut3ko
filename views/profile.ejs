@@ -11,7 +11,11 @@
     <!-- 左カラム -->
     <div class="left">
       <a href="/users/<%= user.id %>">
-        <img src="<%= user.profileImage || '/images/default-profile.png' %>" alt="profile" class="profile-img">
+        <% if (user.profileImage) { %>
+          <img src="<%= user.profileImage %>" alt="Profile Image" class="profile-img">
+        <% } else { %>
+          <img src="/images/default-profile.png" alt="Default Profile" class="profile-img">
+        <% } %>
       </a>
       <div><strong><%= user.name %></strong></div>
       <div><a href="/users/<%= user.id %>">view my profile</a></div>
@@ -22,6 +26,12 @@
           <a href="/users/<%= user.id %>/followers">フォロワー: <%= user.followerCount %></a>
         </div>
       </div>
+      <% if (user.bio) { %>
+      <div class="user-bio">
+        <h4>自己紹介</h4>
+        <p><%= user.bio %></p>
+      </div>
+    <% } %>
     </div>
     <!-- 右カラム -->
     <div class="right">
@@ -46,7 +56,7 @@
             <div class="micropost-content">
               <div class="micropost-header">
                 <a href="/users/<%= user.id %>"><%= user.name %></a>
-                <span class="micropost-date"><%= post.created_at.toLocaleString ? post.created_at.toLocaleString() : post.created_at %></span>
+                <span class="micropost-date"><%= toJapanTimeString(post.created_at) %></span>
               </div>
               <div><%= post.content %></div>
               <% if (loginUser && loginUser.id === user.id) { %>

@@ -6,6 +6,7 @@ module.exports = {
       database: "Micropost", // ← ここをMicropostに変更
       user: "root",
       password: "password",
+      timezone: '+09:00'
     },
     pool: {
       min: 2,
@@ -18,7 +19,8 @@ module.exports = {
     connection: {
       database: "Micropost", // ← ここもMicropostに変更
       user: "root",
-      password: "password", 
+      password: "password",
+      timezone: '+09:00'
     },
     pool: {
       min: 2,
@@ -31,7 +33,8 @@ module.exports = {
     connection: {
       database: "Micropost", // ← ここもMicropostに変更
       user: "root",
-      password: "password", 
+      password: "password",
+      timezone: '+09:00'
     },
     pool: {
       min: 2,
