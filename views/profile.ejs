@@ -31,11 +31,26 @@
         <% } %>
       <% } %>
       <div class="stats">
-        <div>投稿数: <%= user.postCount %></div>
-        <div>
-          <a href="/users/<%= user.id %>/following">フォロー: <%= user.followingCount %></a>
-          <a href="/users/<%= user.id %>/followers">フォロワー: <%= user.followerCount %></a>
+        <div class="stat-item">
+          <span class="stat-label">投稿数</span>
+          <span class="stat-value"><%= user.postCount %></span>
         </div>
+        <a href="/users/<%= user.id %>/following">
+          <div class="stat-item">
+            <span class="stat-label">フォロー</span>
+            <span class="stat-value">
+              <%= user.followingCount %>
+            </span>
+          </div>
+        </a>
+        <a href="/users/<%= user.id %>/followers">
+          <div class="stat-item">
+            <span class="stat-label">フォロワー</span>
+            <span class="stat-value">
+              <%= user.followerCount %>
+            </span>
+          </div>
+        </a>
       </div>
       <% if (user.bio) { %>
       <div class="user-bio">
@@ -60,7 +75,7 @@
               </div>
               <div><%= post.content %></div>
               <% if (loginUser && loginUser.id === user.id) { %>
-                <form action="/microposts/<%= post.id %>?_method=DELETE" method="post" style="display:inline;">
+                <form action="/microposts/<%= post.id %>?_method=DELETE" method="post" style="display:inline;" class="delete-form">
                   <button type="submit" class="delete-btn">delete</button>
                 </form>
               <% } %>
